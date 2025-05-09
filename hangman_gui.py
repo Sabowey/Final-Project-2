@@ -16,6 +16,7 @@ class Hangman:
         self.track_list = []
         self.choice_file = 0
         self.guess = ''
+        self.win = 0
         self.word_hide, self.word_check = ['_', '_', '_', '_', '_', '_'], ['_', '_', '_', '_', '_', '_']
         self.images = images
         self.root = window
@@ -62,7 +63,7 @@ class Hangman:
                         self.track_list.append('1')
                         self.word_check[i] = self.word[i]
                         if ''.join(self.word_hide) == ''.join(self.word):
-                            self.winner()
+                            self.win = 1
                     else:
                         self.track_list.append('0')
                 if ''.join(self.track_list) == '000000':
@@ -76,7 +77,10 @@ class Hangman:
                         self.loser()
                 else:
                     self.track_list = []
-                    self.label_answer.config(text=str(''.join(self.word_hide)))
+                    if self.win == 1:
+                        self.winner()
+                    else:
+                        self.label_answer.config(text=str(''.join(self.word_hide)))
         except ValueError:
             self.label_res.config(text='Input 6 letter word', fg='red', font=('Ariel', 15))
 
